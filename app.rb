@@ -44,6 +44,7 @@ post '/twilio/sms' do
   datum = {
     sender_number: params['From'],
     value: value,
+    data_source: 'twilio',
     _timestamp: DateTime.now.iso8601
   }
 
