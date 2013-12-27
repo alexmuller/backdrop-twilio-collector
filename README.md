@@ -25,13 +25,6 @@ Twilio `POST`s to the endpoint inside this app (`/twilio/sms`) with details
 of the SMS it has just received. This app processes the SMS, connects to
 Backdrop and then sends a response (if the trial account has enough credit).
 
-## Environment variables
-
-    ENV['BACKDROP_BUCKET'] = bucket_name
-    ENV['BACKDROP_TOKEN'] = bucket_bearer_token
-    ENV['TWILIO_ACCOUNT_SID'] = twilio_account_sid
-    ENV['TWILIO_AUTH_TOKEN'] = twilio_auth_token
-
 ## Further development
 
 - Add a "secret word" to the beginning of your SMS to act as basic authentication
