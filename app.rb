@@ -11,6 +11,8 @@ BACKDROP_HOST = ENV['BACKDROP_HOST']
 BACKDROP_BUCKET = ENV['BACKDROP_BUCKET']
 BACKDROP_TOKEN = ENV['BACKDROP_TOKEN']
 
+SECRET_WORD = ENV['SECRET_WORD']
+
 TWILIO_CLIENT = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
 TWILIO_NUMBER = ENV['TWILIO_NUMBER']
 
@@ -32,9 +34,15 @@ post '/twilio/sms' do
     send_sms("We couldn't see who this SMS was from or what the body was", params['From'])
     halt 400
   end
-  # Parse the body as an integer or fail
+  secret_word, special_number = params['Body'].split(' ')
+  # Make sure they know the sooper seekret password
+  if secret_word != SECRET_WORD
+    send_sms('Your secret word was wrong. Oops!', params['From'])
+    halt 400
+  end
+  # Parse the number as an integer or fail
   begin
-    value = Integer(params['Body'])
+    value = Integer(special_number)
   rescue ArgumentError => e
     random_integer = 1 + rand(1000)
     send_sms("It doesn't look like you sent a number :/. Try just '#{random_integer}' in a new text.", params['From'])
